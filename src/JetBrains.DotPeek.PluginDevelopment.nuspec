@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>JetBrains.DotPeek.PluginDevelopment</id>
+        <version>1.0.0</version>
+        <authors>Maarten Balliauw</authors>
+        <owners>JetBrains,Maarten Balliauw</owners>
+        <iconUrl>http://www.jetbrains.com/img/icons/DP_big.gif</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>This NuGet package sets up a Visual Studio project for dotPeek plugin development.</description>
+        <summary>This NuGet package sets up a Visual Studio project for dotPeek plugin development.</summary>
+        <language>en-US</language>
+        <tags>dotpeek jetbrains plugin il disassembly disassembler</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="PresentationCore" targetFramework="" />
+            <frameworkAssembly assemblyName="PresentationFramework.Aero" targetFramework="" />
+            <frameworkAssembly assemblyName="PresentationUI" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework="" />
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="content\Handlers\AboutActionHandler.cs.pp" target="content\Handlers\AboutActionHandler.cs.pp" />
+        <file src="content\Handlers\CommandWindowActionHandler.cs.pp" target="content\Handlers\CommandWindowActionHandler.cs.pp" />
+        <file src="content\Properties\PluginInfo.cs.pp" target="content\Properties\PluginInfo.cs.pp" />
+        <file src="content\Actions.xml.pp" target="content\Actions.xml.pp" />
+        <file src="content\Actions.xsd" target="content\Actions.xsd" />
+        <file src="tools\dotPeek-PluginDevelopment.psm1" target="tools\dotPeek-PluginDevelopment.psm1" />
+        <file src="tools\init.ps1" target="tools\init.ps1" />
+        <file src="tools\install.ps1" target="tools\install.ps1" />
+        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
+    </files>
+</package>

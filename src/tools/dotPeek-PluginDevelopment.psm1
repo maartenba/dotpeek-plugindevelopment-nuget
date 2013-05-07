@@ -121,14 +121,6 @@ function Initialize-DotPeekPlugin {
         if ((Get-DotPeekInstalledVersion) -eq "1.1") {
             Set-MSBuildProperty DefineConstants "$defineConstants;JET_MODE_ASSERT;DP11" $project.Name
         }
-        
-        # Post-build event
-        $dotPeekVersion = (Get-DotPeekInstalledVersion)
-        $postBuildEvent = (Get-MSBuildProperty PostBuildEvent $project.Name).UnevaluatedValue
-        Set-MSBuildProperty PostBuildEvent "$postBuildEvent
-mkdir `$(LOCALAPPDATA)\JetBrains\dotPeek\v$dotPeekVersion\plugins
-xcopy /Y `$(TargetDir)*.dll `$(LOCALAPPDATA)\JetBrains\dotPeek\v$dotPeekVersion\plugins
-xcopy /Y `$(TargetDir)*.pdb `$(LOCALAPPDATA)\JetBrains\dotPeek\v$dotPeekVersion\plugins" $project.Name
 
         # Start action
         Set-MSBuildProperty StartAction "Program" $project.Name
@@ -139,7 +131,17 @@ xcopy /Y `$(TargetDir)*.pdb `$(LOCALAPPDATA)\JetBrains\dotPeek\v$dotPeekVersion\
         if ((Get-DotPeekInstalledVersion) -eq "1.1") {
             Set-MSBuildProperty StartProgram "$startPath\dotPeek32.exe" $project.Name
         }
-        Set-MSBuildProperty StartArguments "/Internal" $project.Name
+		
+		# Working directory
+		$outputPath = (Get-MSBuildProperty OutputPath $project.Name).UnevaluatedValue
+		$workingDirectory = [System.IO.Path]::GetDirectoryName( (Get-Project).FullName )
+		$workingDirectory = [System.IO.Path]::Combine($workingDirectory, $outputPath)
+        Set-MSBuildProperty StartWorkingDirectory $workingDirectory $project.Name
+		
+		# Start arguments
+		$assemblyName = (Get-MSBuildProperty AssemblyName $project.Name).UnevaluatedValue
+		$assemblyName = "$assemblyName.dll"
+        Set-MSBuildProperty StartArguments "/Internal /Plugin=$assemblyName" $project.Name
     }
 }
 

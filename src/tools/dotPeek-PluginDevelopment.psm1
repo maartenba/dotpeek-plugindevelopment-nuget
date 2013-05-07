@@ -113,9 +113,11 @@ function Initialize-DotPeekPlugin {
         $project = Get-Project
         $project.Save()
         
-        # Rename .user project file
+        # Rename .user project file if it exists
         $projectFile = (Get-Project).FullName
-        Rename-Item "$projectFile.user" "$projectFile.user.old"
+		if ((Test-Path "$projectFile.user" -IsValid) -eq $True) {
+			Rename-Item "$projectFile.user" "$projectFile.user.old"
+		}
         
         # Define constants
         $defineConstants = (Get-MSBuildProperty DefineConstants $project.Name).UnevaluatedValue

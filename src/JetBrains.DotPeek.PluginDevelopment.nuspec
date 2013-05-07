@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>JetBrains.DotPeek.PluginDevelopment</id>
-        <version>1.0.0</version>
+        <version>$version$</version>
         <authors>Maarten Balliauw</authors>
         <owners>JetBrains,Maarten Balliauw</owners>
         <iconUrl>http://www.jetbrains.com/img/icons/DP_big.gif</iconUrl>

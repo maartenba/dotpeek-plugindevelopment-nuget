@@ -1,6 +1,6 @@
 ﻿function Get-DotPeekPath {
-    if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.1\Bin" -IsValid) -eq $True) {
-        return "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.1\Bin";
+    if ((Test-Path "hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1" -IsValid) -eq $True) {
+        return (Get-ItemProperty hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1).InstallDir;
     }
     if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0" -IsValid) -eq $True) {
         return "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0";
@@ -8,7 +8,7 @@
 }
 
 function Get-DotPeekInstalledVersion {
-    if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.1\Bin" -IsValid) -eq $True) {
+    if ((Test-Path "hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1" -IsValid) -eq $True) {
         return "1.1";
     }
     if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0" -IsValid) -eq $True) {
@@ -134,10 +134,10 @@ xcopy /Y `$(TargetDir)*.pdb `$(LOCALAPPDATA)\JetBrains\dotPeek\v$dotPeekVersion\
         Set-MSBuildProperty StartAction "Program" $project.Name
         $startPath = (Get-DotPeekPath)
         if ((Get-DotPeekInstalledVersion) -eq "1.0") {
-        Set-MSBuildProperty StartProgram "$startPath\dotPeek.exe" $project.Name
+            Set-MSBuildProperty StartProgram "$startPath\dotPeek.exe" $project.Name
         }
         if ((Get-DotPeekInstalledVersion) -eq "1.1") {
-        Set-MSBuildProperty StartProgram "$startPath\dotPeek32.exe" $project.Name
+            Set-MSBuildProperty StartProgram "$startPath\dotPeek32.exe" $project.Name
         }
         Set-MSBuildProperty StartArguments "/Internal" $project.Name
     }

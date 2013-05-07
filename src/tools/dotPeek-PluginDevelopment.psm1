@@ -113,6 +113,10 @@ function Initialize-DotPeekPlugin {
         $project = Get-Project
         $project.Save()
         
+        # Rename .user project file
+        $projectFile = (Get-Project).FullName
+        Rename-Item "$projectFile.user" "$projectFile.user.old"
+        
         # Define constants
         $defineConstants = (Get-MSBuildProperty DefineConstants $project.Name).UnevaluatedValue
         if ((Get-DotPeekInstalledVersion) -eq "1.0") {
@@ -131,16 +135,16 @@ function Initialize-DotPeekPlugin {
         if ((Get-DotPeekInstalledVersion) -eq "1.1") {
             Set-MSBuildProperty StartProgram "$startPath\dotPeek32.exe" $project.Name
         }
-		
-		# Working directory
-		$outputPath = (Get-MSBuildProperty OutputPath $project.Name).UnevaluatedValue
-		$workingDirectory = [System.IO.Path]::GetDirectoryName( (Get-Project).FullName )
-		$workingDirectory = [System.IO.Path]::Combine($workingDirectory, $outputPath)
+        
+        # Working directory
+        $outputPath = (Get-MSBuildProperty OutputPath $project.Name).UnevaluatedValue
+        $workingDirectory = [System.IO.Path]::GetDirectoryName( (Get-Project).FullName )
+        $workingDirectory = [System.IO.Path]::Combine($workingDirectory, $outputPath)
         Set-MSBuildProperty StartWorkingDirectory $workingDirectory $project.Name
-		
-		# Start arguments
-		$assemblyName = (Get-MSBuildProperty AssemblyName $project.Name).UnevaluatedValue
-		$assemblyName = "$assemblyName.dll"
+        
+        # Start arguments
+        $assemblyName = (Get-MSBuildProperty AssemblyName $project.Name).UnevaluatedValue
+        $assemblyName = "$assemblyName.dll"
         Set-MSBuildProperty StartArguments "/Internal /Plugin=$assemblyName" $project.Name
     }
 }

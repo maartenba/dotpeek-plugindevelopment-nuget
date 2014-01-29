@@ -1,17 +1,17 @@
 ﻿function Get-DotPeekPath {
-    if ((Test-Path "hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1" -IsValid) -eq $True) {
+    if ((Test-Path "hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1") -eq $True) {
         return (Get-ItemProperty hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1).InstallDir;
     }
-    if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0" -IsValid) -eq $True) {
+    if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0") -eq $True) {
         return "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0";
     }
 }
 
 function Get-DotPeekInstalledVersion {
-    if ((Test-Path "hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1" -IsValid) -eq $True) {
+    if ((Test-Path "hklm:\Software\Wow6432Node\JetBrains\dotPeek\v1.1") -eq $True) {
         return "1.1";
     }
-    if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0" -IsValid) -eq $True) {
+    if ((Test-Path "${Env:ProgramFiles(x86)}\JetBrains\DotPeek\v1.0") -eq $True) {
         return "1.0";
     }
 }
@@ -78,7 +78,7 @@ function Get-MSBuildProperty {
 }
 
 function Initialize-DotPeekPlugin {
-    if ((Test-Path Get-DotPeekPath -IsValid) -eq $False) {
+    if ((Test-Path Get-DotPeekPath) -eq $False) {
         [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
         $result = [Windows.Forms.MessageBox]::Show("You currently do not have JetBrains dotPeek installed. Would you like to download it now?", "JetBrains dotPeek", [Windows.Forms.MessageBoxButtons]::YesNo, [Windows.Forms.MessageBoxIcon]::Information);
         if ($result -eq [Windows.Forms.DialogResult]::Yes) {
@@ -115,7 +115,7 @@ function Initialize-DotPeekPlugin {
         
         # Rename .user project file if it exists
         $projectFile = (Get-Project).FullName
-		if ((Test-Path "$projectFile.user" -IsValid) -eq $True) {
+		if ((Test-Path "$projectFile.user") -eq $True) {
 			Rename-Item "$projectFile.user" "$projectFile.user.old"
 		}
         

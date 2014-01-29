@@ -78,7 +78,7 @@ function Get-MSBuildProperty {
 }
 
 function Initialize-DotPeekPlugin {
-    if ((Test-Path Get-DotPeekPath) -eq $False) {
+    if ((Test-Path (Get-DotPeekPath)) -eq $False) {
         [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
         $result = [Windows.Forms.MessageBox]::Show("You currently do not have JetBrains dotPeek installed. Would you like to download it now?", "JetBrains dotPeek", [Windows.Forms.MessageBoxButtons]::YesNo, [Windows.Forms.MessageBoxIcon]::Information);
         if ($result -eq [Windows.Forms.DialogResult]::Yes) {
